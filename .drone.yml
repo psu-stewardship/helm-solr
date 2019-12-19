@@ -11,9 +11,9 @@ steps:
   commands:
   - helm package --version $DRONE_TAG
   when:
-    events: [ tags ]
+    event: [ tags ]
 ---
 kind: signature
-hmac: 09333a512b2d4ea972d7f2b5ad39a27d66fc5855d56714f82f3e88e35eda219a
+hmac: e888d3781ecf0e9c0b074a720a0d1a8d71321d29697669c50dd3e0ab7dfdadd0
 
 ...
