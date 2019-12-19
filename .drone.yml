@@ -10,11 +10,11 @@ steps:
       from_secret: HELM_PASSWORD
   commands:
   - helm package . --version $DRONE_TAG
-  - helm push --username='robot$drone' --password=$HELM_PASSWORD . https://harbor.dsrd.libraries.psu.edu/chartrepo/public
+  - helm push --username='robot$drone' --password=$HELM_PASSWORD solr-$DRONE_TAG.tgz https://harbor.dsrd.libraries.psu.edu/chartrepo/public
   when:
     event: [ tag ]
 ---
 kind: signature
-hmac: 38a3bc7bf230249713d53432bc897a23854ba623951dc775b6f583a763385a7f
+hmac: cf825c0bd4afb9b43e94669df821e89a7304a7d4a9d0f7790ab7986cde04a347
 
 ...
