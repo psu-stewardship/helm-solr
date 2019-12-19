@@ -13,3 +13,8 @@ steps:
   when:
     events: [ tags ]
     branches: [ master ]
+---
+kind: signature
+hmac: ed4d0cde1f6c8f7856a9c7986d784ebff0136a362e5f529089fe7c0487ce841c
+
+...
