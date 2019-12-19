@@ -9,12 +9,12 @@ steps:
     HELM_PASSWORD:
       from_secret: HELM_PASSWORD
   commands:
-  - helm package
+  - helm package . 
   when:
     events: [ tags ]
     branches: [ master ]
 ---
 kind: signature
-hmac: ed4d0cde1f6c8f7856a9c7986d784ebff0136a362e5f529089fe7c0487ce841c
+hmac: f82a9ee2ed1c10d60d0224c4254396b634cf43fc52bf863b1c34c0dcfab86223
 
 ...
