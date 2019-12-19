@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1beta2
 kind: StatefulSet
 metadata:
@@ -8,6 +9,7 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  serviceName: {{ include "solr.fullname" . }}
   {{- if .Values.persistence.enabled }}
   volumeClaimTemplates:
   - metadata:
@@ -32,7 +34,7 @@ spec:
       {{- end }}
       {{- end }}
   {{- end }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "solr.name" . }}
@@ -43,39 +45,26 @@ spec:
         app.kubernetes.io/name: {{ include "solr.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      # volumes:
-      # - name: solr-xml
-      #   configMap:
-      #     name: {{ include "solr.fullname" . }}-solr-xml
-      #     items:
-      #     - key: solr.xml
-      #       path: solr.xml
       containers:
         - name: {{ .Chart.Name }}
-          env:
+          nv:
           - name: SOLR_JAVA_MEM
             value: {{ .Values.solrJavaMem }}
-          - name: SOLR_HOME
-            value: /var/solr/data
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [
+            "solr-foreground",
+            "-DzkRun"
+          ]
           volumeMounts:
           {{- if .Values.persistence.enabled }}
           - name: data
-            mountPath: /var/solr/data
+            mountPath: /var/solr
           {{- end }}
           ports:
             - name: solr
               containerPort: 8983
               protocol: TCP
-          # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

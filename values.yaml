@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: solr
-  tag: 8.1.1
+  tag: 8.2.0-slim
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -18,11 +18,14 @@ service:
 
 solrJavaMem: -Xms2g -Xmx3g
 
+cores:
+- sample1
+
 persistence:
   # existingClaim: ""
   enabled: false
   size: 8Gi
-  storageClass: hostpath
+  storageClass: nfs-client
   accessModes:
   - ReadWriteOnce
 
