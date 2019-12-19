@@ -1,0 +1,15 @@
+---
+kind: pipeline
+name: default
+
+steps:
+- name: package
+  image: harbor.dsrd.libraries.psu.edu/public/helm-push
+  environment:
+    HELM_PASSWORD:
+      from_secret: HELM_PASSWORD
+  commands:
+  - helm package
+  when:
+    events: [ tags ]
+    branches: [ master ]
